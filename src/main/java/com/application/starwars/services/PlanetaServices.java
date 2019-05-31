@@ -41,6 +41,15 @@ public class PlanetaServices {
 		return planeta;
 	}
 	
+	public Planeta buscarPorNome(String nome) throws PlanetaServiceException {
+		Planeta planeta = planetaRepository.findByNome(nome);
+
+		if (planeta == null) {
+			throw new PlanetaServiceException("Não existe este planeta cadastrado");
+		}
+		return planeta;
+	}
+	
 	public void excluir(Long id) {
 		planetaRepository.delete(id);
 

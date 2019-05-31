@@ -52,7 +52,7 @@ public class PlanetaDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ViagemDto [id=" + id + ", nome=" + nome + ", clima=" + clima
+		return "PlanetaDto [id=" + id + ", nome=" + nome + ", clima=" + clima
 				+ ", terreno=" + terreno + "]";
 	}
 }

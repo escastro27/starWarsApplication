@@ -48,17 +48,27 @@ public class PlanetaController {
 		return ResponseEntity.created(location).body(response);
 	}
 	
-	@PostMapping(path = "/init")
-	public ResponseEntity<Response<Planeta>> iniciarCadastro(@Valid @RequestBody PlanetaDto planetaDto, BindingResult result) {
-		Response<Planeta> response = new Response<Planeta>();
-
+	@GetMapping(path = "/init")
+	public ResponseEntity<List<Planeta>> iniciarCadastro() {
 		
+		PlanetaDto planetaDTO = new PlanetaDto();
+		planetaDTO.setNome("ROTH");
+		planetaDTO.setClima("FRIO");
+		planetaDTO.setTerreno("MONTANHAS");
 
-		Planeta planetaSalvo = this.planetaService.salvar(planetaDto);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(planetaDto.getId())
-				.toUri();
-		response.setData(planetaSalvo);
-		return ResponseEntity.created(location).body(response);
+		this.planetaService.salvar(planetaDTO);
+		
+		
+		planetaDTO.setNome("ENDOR");
+		planetaDTO.setClima("TEMPERADO");
+		planetaDTO.setTerreno("SELVA");
+		
+		this.planetaService.salvar(planetaDTO);
+		
+		List<Planeta> planetas = planetaService.listar();
+		return ResponseEntity.status(HttpStatus.OK).body(planetas);
+		
+		
 	}
 
 	@GetMapping(path = "/listar")
@@ -67,7 +77,7 @@ public class PlanetaController {
 		return ResponseEntity.status(HttpStatus.OK).body(planetas);
 	}
 
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/buscar/id/{id}")
 	public ResponseEntity<Response<Planeta>> buscar(@PathVariable("id") Long id) throws PlanetaServiceException {
   
 		Planeta planeta = planetaService.buscar(id);
@@ -76,7 +86,16 @@ public class PlanetaController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@GetMapping(path = "/excluir/{id}")
+	@GetMapping(path = "/buscar/nome/{nome}")
+	public ResponseEntity<Response<Planeta>> buscarPorNome(@PathVariable("nome") String nome) throws PlanetaServiceException {
+  
+		Planeta planeta = planetaService.buscarPorNome(nome);
+		Response<Planeta> response = new Response<Planeta>();
+		response.setData(planeta);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping(path = "/excluir/id/{id}")
 	public ResponseEntity<Response<Planeta>> excluir(@PathVariable("id") Long id) {
   
 		planetaService.excluir(id);

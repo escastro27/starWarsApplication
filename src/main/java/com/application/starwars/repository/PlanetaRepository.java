@@ -1,6 +1,7 @@
 package com.application.starwars.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.application.starwars.entities.Planeta;
@@ -10,5 +11,10 @@ import com.application.starwars.entities.Planeta;
 public interface PlanetaRepository extends JpaRepository<Planeta, Long> {
 
 	Planeta findBy(Long id);
+	
+    @Query(value="SELECT * FROM planeta p WHERE p.nome like %?1% ", nativeQuery=true)
+    Planeta findByNome(String nome);
+    
+
 
 }
