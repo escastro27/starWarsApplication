@@ -52,17 +52,20 @@ public class PlanetaController {
 	public ResponseEntity<List<Planeta>> iniciarCadastro() {
 		
 		PlanetaDto planetaDTO = new PlanetaDto();
-		planetaDTO.setNome("ROTH");
-		planetaDTO.setClima("FRIO");
-		planetaDTO.setTerreno("MONTANHAS");
-
+		planetaDTO.setNome("Dagobah");
+		planetaDTO.setClima("obscuro");
+		planetaDTO.setTerreno("pântano, selvas");
 		this.planetaService.salvar(planetaDTO);
 		
 		
-		planetaDTO.setNome("ENDOR");
-		planetaDTO.setClima("TEMPERADO");
-		planetaDTO.setTerreno("SELVA");
+		planetaDTO.setNome("Hoth");
+		planetaDTO.setClima("gelado");
+		planetaDTO.setTerreno("cavernas de gelo, tundras");
+		this.planetaService.salvar(planetaDTO);
 		
+		planetaDTO.setNome("Alderaan");
+		planetaDTO.setClima("temperado");
+		planetaDTO.setTerreno("pastagens e montanhas");
 		this.planetaService.salvar(planetaDTO);
 		
 		List<Planeta> planetas = planetaService.listar();
