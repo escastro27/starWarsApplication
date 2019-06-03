@@ -18,7 +18,7 @@ StarWarsApplication é uma API REST feita para armazenar uma coleção de planet
 
 Escrita em Java com framework SPRING-BOOT e usando base de dados H2 (banco em memória).  
 
-O json abaixo exemplifica um típico "Star Wars Planet":
+O json abaixo exemplifica um típico "Planeta Star Wars":
 ```
  {
         "id": 2,
