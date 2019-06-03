@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,13 +27,13 @@ import com.application.starwars.services.exception.PlanetaServiceException;
 
 
 @RestController
-@RequestMapping("/api/planetas")
+@RequestMapping("/api")
 public class PlanetaController {
 
 	@Autowired
 	private PlanetaServices planetaService;
 
-	@PostMapping(path = "/new")
+	@PostMapping(path = "planetas/novo")
 	public ResponseEntity<Response<Planeta>> cadastrar(@Valid @RequestBody PlanetaDto planetaDto, BindingResult result) {
 		Response<Planeta> response = new Response<Planeta>();
 
@@ -48,7 +49,7 @@ public class PlanetaController {
 		return ResponseEntity.created(location).body(response);
 	}
 	
-	@GetMapping(path = "/init")
+	@GetMapping(path = "planetas/init")
 	public ResponseEntity<List<Planeta>> iniciarCadastro() {
 		
 		PlanetaDto planetaDTO = new PlanetaDto();
@@ -74,13 +75,13 @@ public class PlanetaController {
 		
 	}
 
-	@GetMapping(path = "/listar")
+	@GetMapping(path = "/planetas")
 	public ResponseEntity<List<Planeta>> listar() {
 		List<Planeta> planetas = planetaService.listar();
 		return ResponseEntity.status(HttpStatus.OK).body(planetas);
 	}
 
-	@GetMapping(path = "/buscar/id/{id}")
+	@GetMapping(path = "/planetas/{id}")
 	public ResponseEntity<Response<Planeta>> buscar(@PathVariable("id") Long id) throws PlanetaServiceException {
   
 		Planeta planeta = planetaService.buscar(id);
@@ -89,17 +90,16 @@ public class PlanetaController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@GetMapping(path = "/buscar/nome/{nome}")
-	public ResponseEntity<Response<Planeta>> buscarPorNome(@PathVariable("nome") String nome) throws PlanetaServiceException {
+	@GetMapping(path = "/planetas/nome/{nome}")
+	public ResponseEntity<List<Planeta>> buscarPorNome(@PathVariable("nome") String nome) throws PlanetaServiceException {
   
-		Planeta planeta = planetaService.buscarPorNome(nome);
+		List<Planeta> planetas = planetaService.buscarPorNome(nome);
 		Response<Planeta> response = new Response<Planeta>();
-		response.setData(planeta);
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.status(HttpStatus.OK).body(planetas);
 	}
 	
-	@GetMapping(path = "/excluir/id/{id}")
-	public ResponseEntity<Response<Planeta>> excluir(@PathVariable("id") Long id) {
+	@DeleteMapping(path = "/planetas/{id}")
+	public ResponseEntity<Response<Planeta>> excluir(@PathVariable("id") Long id) throws PlanetaServiceException {
   
 		planetaService.excluir(id);
 		Response<Planeta> response = new Response<Planeta>();
